@@ -7,7 +7,7 @@ This repository contains code for decentralized PCA written for the new COINSTAC
 3. compspec.json - computation specifications
 4. local_ancillary.py - 
 5. remote_ancillary.py - 
-
+ 
 ## Written For
 - Python 3.6.6
 - coinstac-simulator 4.0.0
