@@ -1,0 +1,50 @@
+[
+    {
+        "data": {
+            "value": [
+                [
+                    "local0.sub0.data.npz",
+                    "local0.sub1.data.npz",
+                    "local0.sub2.data.npz",
+                    "local0.sub3.data.npz",
+                    "local0.sub4.data.npz"
+                ],
+                [
+                    "npzfile"
+                ]
+            ]
+        }
+    },
+    {
+        "data": {
+            "value": [
+                [
+                    "local1.sub0.data.npz",
+                    "local1.sub1.data.npz",
+                    "local1.sub2.data.npz",
+                    "local1.sub3.data.npz",
+                    "local1.sub4.data.npz"
+                ],
+                [
+                    "npzfile"
+                ]
+            ]
+        }
+    },
+    {
+        "data": {
+            "value": [
+                [
+                    "local2.sub0.data.npz",
+                    "local2.sub1.data.npz",
+                    "local2.sub2.data.npz",
+                    "local2.sub3.data.npz",
+                    "local2.sub4.data.npz"
+                ],
+                [
+                    "npzfile"
+                ]
+            ]
+        }
+    }
+]
