@@ -39,6 +39,13 @@
             "npz"
           ]
         ]
+      },
+      "num_PC_global": {
+        "defaultValue": 20,
+        "label": "Global Number of Principal Components",
+        "min": 1,
+        "type": "number",
+        "source": "owner"
       }
     },
     "output": {
