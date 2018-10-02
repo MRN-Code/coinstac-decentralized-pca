@@ -13,6 +13,19 @@
                     "npzfile"
                 ]
             ]
+        },
+        "row_mean_global": {
+            "value": [
+                [
+                    "row_mean_global.npz"
+                ],
+                [
+                    "npzfile"
+                ]
+            ]
+        },
+        "num_PC_global": {
+            "value": 20
         }
     },
     {
@@ -29,6 +42,19 @@
                     "npzfile"
                 ]
             ]
+        },
+        "row_mean_global": {
+            "value": [
+                [
+                    "row_mean_global.npz"
+                ],
+                [
+                    "npzfile"
+                ]
+            ]
+        },
+        "num_PC_global": {
+            "value": 20
         }
     },
     {
@@ -45,6 +71,19 @@
                     "npzfile"
                 ]
             ]
+        },
+        "row_mean_global": {
+            "value": [
+                [
+                    "row_mean_global.npz"
+                ],
+                [
+                    "npzfile"
+                ]
+            ]
+        },
+        "num_PC_global": {
+            "value": 20
         }
     }
 ]
