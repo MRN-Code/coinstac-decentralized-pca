@@ -31,8 +31,21 @@
           ]
         ]
       },
-      "row_mean_global": {
-        "label": "Global Row Means",
+      "num_PC_global": {
+        "defaultValue": 20,
+        "label": "Global Number of Principal Components",
+        "min": 1,
+        "type": "number",
+        "source": "owner"
+      },
+      "axis": {
+        "defaultValue": -1,
+        "label": "Dimension to Be Reduced",
+        "type": "number",
+        "source": "owner"
+      },
+      "mean_values": {
+        "label": "Global Mean Values",
         "type": "array",
         "extensions": [
           [
@@ -40,10 +53,15 @@
           ]
         ]
       },
-      "num_PC_global": {
-        "defaultValue": 20,
-        "label": "Global Number of Principal Components",
-        "min": 1,
+      "subject_level_PCA": {
+        "defaultValue": true,
+        "label": "Subject-Level PCA",
+        "type": "number",
+        "source": "owner"
+      },
+      "subject_level_num_PC": {
+        "defaultValue": 120,
+        "label": "Number of Principal Components in Subject-Level PCA",
         "type": "number",
         "source": "owner"
       }
