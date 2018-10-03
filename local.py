@@ -26,7 +26,7 @@ def local_1(args):
                       for file in file_list]
     data_file_type = inputs['data'][1][0]
     # Read local input data files
-    datasets = ut.read_data(data_file_list, data_file_type, state['clientId'])
+    datasets = ut.read_data(data_file_list, data_file_type, 'dataset', state['clientId'])
     
     ### Global Number of Principal Components
     num_PC_global = inputs['num_PC_global']
@@ -42,9 +42,9 @@ def local_1(args):
             # Row mean files
             row_mean_file_list = [os.path.join(state["baseDirectory"], file)
                                 for file in file_list]
-            row_mean_file_type = inputs['row_mean_global'][1][0]
+            row_mean_file_type = inputs['mean_values'][1][0]
             # Read local row mean files
-            row_mean = ut.read_data(row_mean_file_list, row_mean_file_type, state['clientId'])
+            row_mean = ut.read_data(row_mean_file_list, row_mean_file_type, 'row_mean_global', state['clientId'])['0']
         else:
             row_mean = None
 
@@ -60,18 +60,25 @@ def local_1(args):
     subject_level_num_PC = inputs['subject_level_num_PC']
     
 
-    
-    # Start local computation:
 
-    
+    # Start local computation:
+    reduced_data, projM_local, bkprojM_local = la.local_PCA(
+        datasets,
+        num_PC=5 * num_PC_global,
+        mean_removal=mean_removal,
+        subject_level_PCA=subject_level_PCA,
+        subject_level_num_PC=subject_level_num_PC)
+
+
+    # Save local projection and backprojection matrices
+
 
     # Compile results to be transmitted to remote and cached for reuse in next iteration
     computation_output = {
         "output": {
-            "row_sum": row_sum.tolist(),
-            "num_cols": num_cols,
-            "row_sums": {ix:{"row_sum":X['row_sum'].tolist(), "num_cols":X['num_cols']}
-                         for (ix,X) in row_sums.items()},
+            # "datasets": {ix:X.tolist() for (ix,X) in datasets.items()},
+            "reduced_data": reduced_data.tolist(),
+            "num_PC_global": num_PC_global,
             "computation_phase": 'local_1'
         },
         "cache": dict()
