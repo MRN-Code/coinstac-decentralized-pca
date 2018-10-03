@@ -75,24 +75,6 @@
             "npz"
           ]
         ]
-      },
-      "projM_global": {
-        "label": "Global Projection (Whitening) Matrix",
-        "type": "array",
-        "extensions": [
-          [
-            "npz"
-          ]
-        ]
-      },
-      "bkprojM_global": {
-        "label": "Global Backprojection (Dewhitening) Matrix",
-        "type": "array",
-        "extensions": [
-          [
-            "npz"
-          ]
-        ]
       }
     }
   }
