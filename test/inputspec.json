@@ -55,18 +55,18 @@
         "num_PC_global": {
             "value": 20
         },
-        "mean_removal": {
-            "value": {
-                "axis": -1,
-                "mean_values": [
-                    [
-                        "row_mean_global.npz"
-                    ],
-                    [
-                        "npzfile"
-                    ]
+        "axis": {
+            "value": -1
+        },
+        "mean_values": {
+            "value": [
+                [
+                    "row_mean_global.npz"
+                ],
+                [
+                    "npzfile"
                 ]
-            }
+            ]
         },
         "subject_level_PCA": {
             "value": false
@@ -93,18 +93,18 @@
         "num_PC_global": {
             "value": 20
         },
-        "mean_removal": {
-            "value": {
-                "axis": -1,
-                "mean_values": [
-                    [
-                        "row_mean_global.npz"
-                    ],
-                    [
-                        "npzfile"
-                    ]
+        "axis": {
+            "value": -1
+        },
+        "mean_values": {
+            "value": [
+                [
+                    "row_mean_global.npz"
+                ],
+                [
+                    "npzfile"
                 ]
-            }
+            ]
         },
         "subject_level_PCA": {
             "value": false
