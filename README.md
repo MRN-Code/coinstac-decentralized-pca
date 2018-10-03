@@ -2,11 +2,12 @@
 This repository contains code for decentralized PCA written for the new COINSTAC simulator (`v4.0.0`).
 
 ## Files
-1. local.py - computes the local PCA from local data and sends results to remote site.
-2. remote.py - aggreagates the local PCA results sent by local sites and returns the global PCA. Also returns global whitening and dewhitening matrices.
-3. compspec.json - computation specifications
-4. local_ancillary.py - 
-5. remote_ancillary.py - 
+1. local.py - reads input data and parameters, triggers computation of the local PCA, then sends results to remote site.
+2. remote.py - aggregates the local PCA results sent by local sites and returns the global PCA.
+3. compspec.json - computation specifications.
+4. ancillary.py - contains general computation subroutines utilized both by local and remote.
+5. local_ancillary.py - contains functions that implement different steps of the local computation.
+6. utils.py - utility functions.
 
 ## Written For
 - Python 3.6.6
