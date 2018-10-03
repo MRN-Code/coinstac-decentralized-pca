@@ -16,7 +16,7 @@ def listRecursive(d, key):
         if k == key:
             yield v
 
-def read_data(file_list, file_type, clientId):
+def read_data(file_list, file_type, field, clientId):
     """ Read data files.
     """
     if file_list:
@@ -26,7 +26,7 @@ def read_data(file_list, file_type, clientId):
             if file_type == 'textfile':
                 datasets[str(ix)] = np.loadtxt(filename)
             if file_type == 'npzfile':
-                datasets[str(ix)] = np.load(filename)['dataset'].T
+                datasets[str(ix)] = np.load(filename)[field].T
     else:
         raise ValueError("No files listed for site: {localID}".format(localID=clientId))
     
