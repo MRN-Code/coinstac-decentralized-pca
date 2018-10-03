@@ -44,7 +44,8 @@ def base_PCA(data, num_PC=None, axis=0, whitening=True):
     -----
     Implemented based on the eigenvalue decomposition (EVD) of the non-normalized covariance matrix.
     The covariance and EVD are always computed on the shortest axis of the input ``data``.
-    The incomplete EVD is performed using ``scipy.linalg.eigh()`` for efficiency.
+    The incomplete EVD is performed using ``scipy.linalg.eigh()`` for efficiency,
+    unless the covariance matrix is ill-conditioned.
     """
 
     # base_PCA() must be available/defined both at the remote and local sites.
@@ -104,8 +105,36 @@ def base_PCA(data, num_PC=None, axis=0, whitening=True):
 
 
 def do_cov_EVD(C, k=None, method=0):
-    ''' Compute top k largest eigenvectors of (symmetric and real-valued) covariance C, up to its matrix rank.
+    ''' Compute top ``k`` largest eigenvectors of (symmetric and real-valued) covariance ``C``, up to its matrix rank.
+
+    Parameters
+    ----------
+    C : 2D array
+        The covariance matrix.
+    k : positive int, optional
+        The number of eigenvectors to compute. ``None`` is interpreted as unspecified and
+        yields all eigenvalues (up to the matrix rank of ``C``). The default is ``None``.
+    method : non-negative int, optional
+        Library subroutine to be utilized for eigenvector decomposition (EVD).
+        The default is ``0``, unless ``C`` is ill-conditioned, then the default is ``1``.
+        ``0``: Fastest method (incomplete EVD from ``scipy.linalg``)
+        ``1``: Medium speed method (SVD from ``numpy.linalg``)
+        ``2``: Medium speed method (SVD from ``scipy.linalg``)
+        ``3``: Slowest method (complete EVD from ``numpy.linalg``)
+        ``4``: Slowest method (complete EVD from ``scipy.linalg``)
+
+    Returns
+    -------
+    U : 2D array
+        The eigenvectors of the covariance matrix ``C``.
+    S : 1D array
+        The eigenvalues of the covariance matrix ``C``.
     '''
+
+    # if k > rank(C)
+    r = np.linalg.matrix_rank(C)
+    if k == None or k > r:
+        k = r
 
     if method == 0:
         if np.linalg.cond(C) > 1e7:
@@ -114,9 +143,6 @@ def do_cov_EVD(C, k=None, method=0):
     
     ## Fastest method (incomplete EVD from scipy linalg)
     if method == 0:
-        r = np.linalg.matrix_rank(C)
-        if k == None:
-            k = r
         S, U = linalg.eigh(C, eigvals=(r - k, r - 1))
         # Sort eigenvalues and eigenvectors to non-increasing order
         S = S[::-1]
