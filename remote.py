@@ -81,7 +81,7 @@ def remote_1(args):
     # Compute global principal components
     PC_global, _, _ = an.base_PCA(all_reduced_data,
                                   num_PC=num_PC_global,
-                                  axis=1,
+                                  axis=-1,
                                   whitening=False)
 
     # # Concatenate all raw local datasets along columns
@@ -95,7 +95,7 @@ def remote_1(args):
     # # Compute global number of columns over all local num_cols
     # PC_global_true, _, _ = an.base_PCA(all_data-all_data.mean(axis=-1)[:,None],
     #                                    num_PC=num_PC_global,
-    #                                    axis=1,
+    #                                    axis=-1,
     #                                    whitening=False)
 
     # Compile results to be transmitted to local sites and cached for reuse in next iteration
