@@ -15,6 +15,52 @@ import utils as ut
 
 
 def remote_1(args):
+    """ Parse input data and parameters, trigger computation of the local PCA, send results to remote
+    
+    Parameters
+    ----------
+    args : dict
+        Example:
+        {
+        "input": {
+            "local0": {
+                "reduced_data": reduced_data,
+                "num_PC_global": num_PC_global,
+                "computation_phase": 'local_1'
+            },
+            "local1": {
+                "reduced_data": reduced_data,
+                "num_PC_global": num_PC_global,
+                "computation_phase": 'local_1'
+            },
+            "local2": {
+                "reduced_data": reduced_data,
+                "num_PC_global": num_PC_global,
+                "computation_phase": 'local_1'
+            }
+        },
+        "state": {
+            "baseDirectory":
+            "outputDirectory":
+            "cacheDirectory":
+            "clientId": remote
+        },
+        "cache": {}
+        }
+
+    Returns
+    -------
+    computation_output : dict
+        Example:
+        {
+        "output": {
+            "PC_global": PC_global
+        },
+        "cache": {},
+        "success": True
+        }
+
+    """
 
     state = args['state']
     inputs = args['input']
@@ -79,6 +125,7 @@ if __name__ == '__main__':
         computation_output = remote_1(parsed_args)
         # Transmit results to remote
         # as file (for large volumes of data; OS overhead):
+
         # as JSON string (for smaller volumes of data; JSON conversion overhead):
         sys.stdout.write(json.dumps(computation_output))
     else:
