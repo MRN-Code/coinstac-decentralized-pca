@@ -14,9 +14,9 @@ import ancillary as an
 import utils as ut
 
 
-def remote_1(args):
+def dpca_remote_1(args):
     """ Parse input data and parameters, trigger computation of the local PCA, send results to remote
-    
+
     Parameters
     ----------
     args : dict
@@ -67,15 +67,15 @@ def remote_1(args):
     cache = args['cache']
 
     # Start remote computation:
-    
+
     # Concatenate all local reduced_data along columns
     all_reduced_data = np.hstack(
-        tuple(np.array(si['reduced_data']) for (localID,si) in inputs.items())
+        tuple(np.array(si['reduced_data']) for (localID, si) in inputs.items())
     )
 
     # Global Number of Principal Components
     num_PC_global = np.hstack(
-        tuple(si['num_PC_global'] for (localID,si) in inputs.items())
+        tuple(si['num_PC_global'] for (localID, si) in inputs.items())
     ).max()
 
     # Compute global principal components
@@ -91,7 +91,7 @@ def remote_1(args):
     #           for (subID,su) in si['datasets'].items()
     #     )
     # )
-    # 
+    #
     # # Compute global number of columns over all local num_cols
     # PC_global_true, _, _ = an.base_PCA(all_data-all_data.mean(axis=-1)[:,None],
     #                                    num_PC=num_PC_global,
@@ -101,12 +101,13 @@ def remote_1(args):
     # Compile results to be transmitted to local sites and cached for reuse in next iteration
     computation_output = {
         "output": {
-            "PC_global": PC_global.tolist()
+            "PC_global": PC_global.tolist(),
+            "computation_phase": "dpca_remote_1"
         },
         "cache": dict(),
         "success": True
     }
-        
+
     #output_file = os.path.join(state['outputDirectory'], 'row_mean_global.data')
     #np.savetxt(output_file, row_mean_global, fmt='%.6f')
 

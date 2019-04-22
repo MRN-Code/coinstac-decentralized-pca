@@ -14,9 +14,9 @@ import utils as ut
 import local_ancillary as la
 
 
-def local_1(args):
+def dpca_local_1(args):
     """ Parse input data and parameters, trigger computation of the local PCA, send results to remote
-    
+
     Parameters
     ----------
     args : dict
@@ -70,28 +70,28 @@ def local_1(args):
     inputs = args['input']
     cache = args['cache']
 
-    ### Input data files
+    # Input data files
     file_list = inputs['data'][0]
     data_file_list = [os.path.join(state["baseDirectory"], file)
                       for file in file_list]
     data_file_type = inputs['data'][1][0]
     # Read local input data files
     datasets = ut.read_data(data_file_list, data_file_type, 'dataset', state['clientId'])
-    
-    ### Global Number of Principal Components
+
+    # Global Number of Principal Components
     num_PC_global = inputs['num_PC_global']
 
-    ### Dimension to Be Reduced
+    # Dimension to Be Reduced
     axis = inputs['axis']
 
-    ### Define mean_removal tuple
+    # Define mean_removal tuple
     if axis == -1:
-        ### Check if Global (Row) Mean Values provided
+        # Check if Global (Row) Mean Values provided
         file_list = inputs['mean_values'][0]
         if file_list:
             # Row mean files
             row_mean_file_list = [os.path.join(state["baseDirectory"], file)
-                                for file in file_list]
+                                  for file in file_list]
             row_mean_file_type = inputs['mean_values'][1][0]
             # Read local row mean files
             row_mean = ut.read_data(row_mean_file_list,
@@ -103,16 +103,14 @@ def local_1(args):
 
         mean_removal = (axis, row_mean)
     elif axis == -2:
-        ### Column means are always computed locally, on-the-fly
+        # Column means are always computed locally, on-the-fly
         mean_removal = (axis, None)
-    
-    ### Subject-Level PCA
+
+    # Subject-Level PCA
     subject_level_PCA = inputs['subject_level_PCA']
 
-    ### Number of Principal Components in Subject-Level PCA
+    # Number of Principal Components in Subject-Level PCA
     subject_level_num_PC = inputs['subject_level_num_PC']
-    
-
 
     # Start local computation:
     reduced_data, projM_local, bkprojM_local = la.local_PCA(
@@ -122,9 +120,8 @@ def local_1(args):
         subject_level_PCA=subject_level_PCA,
         subject_level_num_PC=subject_level_num_PC)
 
-
     # Save local projection and backprojection matrices
-    ######## Option currently not supported.
+    # Option currently not supported.
 
     # Compile results to be transmitted to remote and cached for reuse in next iteration
     computation_output = {
@@ -132,7 +129,7 @@ def local_1(args):
             # "datasets": {ix:X.tolist() for (ix,X) in datasets.items()},
             "reduced_data": reduced_data.tolist(),
             "num_PC_global": num_PC_global,
-            "computation_phase": 'local_1'
+            "computation_phase": 'dpca_local_1'
         },
         "cache": dict()
     }
@@ -144,12 +141,12 @@ if __name__ == '__main__':
 
     parsed_args = json.loads(sys.stdin.read())
     phase_key = list(ut.listRecursive(parsed_args, 'computation_phase'))
-    
+
     if not phase_key:
         computation_output = local_1(parsed_args)
         # Transmit results to remote
         # as file (for large volumes of data, OS overhead):
-        
+
         # as JSON string (for smaller volumes of data, JSON conversion overhead):
         sys.stdout.write(json.dumps(computation_output))
     else:
