@@ -11,7 +11,7 @@ import os
 import sys
 import numpy as np
 import utils as ut
-import local_ancillary as la
+from . import local_ancillary as la
 
 
 def dpca_local_1(args):
@@ -72,11 +72,13 @@ def dpca_local_1(args):
 
     # Input data files
     file_list = inputs['data'][0]
-    data_file_list = [os.path.join(state["baseDirectory"], file)
-                      for file in file_list]
+    data_file_list = [
+        os.path.join(state["baseDirectory"], file) for file in file_list
+    ]
     data_file_type = inputs['data'][1][0]
     # Read local input data files
-    datasets = ut.read_data(data_file_list, data_file_type, 'dataset', state['clientId'])
+    datasets = ut.read_data(data_file_list, data_file_type, 'dataset',
+                            state['clientId'])
 
     # Global Number of Principal Components
     num_PC_global = inputs['num_PC_global']
@@ -90,14 +92,14 @@ def dpca_local_1(args):
         file_list = inputs['mean_values'][0]
         if file_list:
             # Row mean files
-            row_mean_file_list = [os.path.join(state["baseDirectory"], file)
-                                  for file in file_list]
+            row_mean_file_list = [
+                os.path.join(state["baseDirectory"], file)
+                for file in file_list
+            ]
             row_mean_file_type = inputs['mean_values'][1][0]
             # Read local row mean files
-            row_mean = ut.read_data(row_mean_file_list,
-                                    row_mean_file_type,
-                                    'row_mean_global',
-                                    state['clientId'])['0']
+            row_mean = ut.read_data(row_mean_file_list, row_mean_file_type,
+                                    'row_mean_global', state['clientId'])['0']
         else:
             row_mean = None
 

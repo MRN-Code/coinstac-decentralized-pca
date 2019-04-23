@@ -10,7 +10,7 @@ import json
 import os
 import sys
 import numpy as np
-import ancillary as an
+from . import ancillary as an
 import utils as ut
 
 
@@ -70,13 +70,12 @@ def dpca_remote_1(args):
 
     # Concatenate all local reduced_data along columns
     all_reduced_data = np.hstack(
-        tuple(np.array(si['reduced_data']) for (localID, si) in inputs.items())
-    )
+        tuple(
+            np.array(si['reduced_data']) for (localID, si) in inputs.items()))
 
     # Global Number of Principal Components
     num_PC_global = np.hstack(
-        tuple(si['num_PC_global'] for (localID, si) in inputs.items())
-    ).max()
+        tuple(si['num_PC_global'] for (localID, si) in inputs.items())).max()
 
     # Compute global principal components
     PC_global, _, _ = an.base_PCA(all_reduced_data,
@@ -121,7 +120,8 @@ if __name__ == '__main__':
     phase_key = list(ut.listRecursive(parsed_args, 'computation_phase'))
 
     if not phase_key:
-        raise ValueError("Error occurred at Remote: missing phase key from local site(s).")
+        raise ValueError(
+            "Error occurred at Remote: missing phase key from local site(s).")
     elif "local_1" in phase_key:
         computation_output = remote_1(parsed_args)
         # Transmit results to remote

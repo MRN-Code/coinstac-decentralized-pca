@@ -7,7 +7,8 @@ Created on Tue Oct 2 20:19:00 2018 (MDT)
 """
 
 import numpy as np
-import ancillary as an
+from . import ancillary as an
+
 
 def local_PCA(site,
               num_PC,
@@ -66,10 +67,11 @@ def local_PCA(site,
 
         if subject_level_PCA:
             # This is subject level PCA with whitening
-            data_subject_tmp, projM[mm], bkprojM[mm] = an.base_PCA(raw_subject,
-                                                                   num_PC=subject_level_num_PC,
-                                                                   axis=-1,
-                                                                   whitening=True)
+            data_subject_tmp, projM[mm], bkprojM[mm] = an.base_PCA(
+                raw_subject,
+                num_PC=subject_level_num_PC,
+                axis=-1,
+                whitening=True)
             data_subject = np.hstack(
                 (data_subject,
                  data_subject_tmp)) if data_subject.size else data_subject_tmp
