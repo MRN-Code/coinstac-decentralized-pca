@@ -3,7 +3,7 @@
 """
 Created on Tue Oct 2 20:19:00 2018 (MDT)
 
-@author: Rogers F. Silva
+*author: Rogers F. Silva
 """
 
 import numpy as np
@@ -54,9 +54,9 @@ def base_PCA(data, num_PC=None, axis=-2, whitening=True):
 
     # Compute covariance matrix C along smallest dimension
     if num_rows <= num_cols:
-        C = data @ data.T
+        C = data * data.T
     else:
-        C = data.T @ data
+        C = data.T * data
 
     U, S = do_cov_EVD(C, k=num_PC)
 
@@ -65,19 +65,19 @@ def base_PCA(data, num_PC=None, axis=-2, whitening=True):
     # Reduce selected dimension/axis
     if num_rows <= num_cols:
         U = U.T
-        tmp = U @ data
+        tmp = U * data
         if axis == -2:
             reduced_data = tmp
             projM = U
         elif axis == -1:
             tmp = tmp.T * (1 / np.sqrt(S))
-            reduced_data = data @ tmp
+            reduced_data = data * tmp
             projM = tmp
     else:
-        tmp = data @ U
+        tmp = data * U
         if axis == -2:
             tmp = (1 / np.sqrt(S[:, None])) * tmp.T
-            reduced_data = tmp @ data
+            reduced_data = tmp * data
             projM = tmp
         elif axis == -1:
             reduced_data = tmp
@@ -140,22 +140,22 @@ def do_cov_EVD(C, k=None, method=0):
         if np.linalg.cond(C) > 1e7:
             # Default to method 1 if ill-conditioned
             method = 1
-    
-    ## Fastest method (incomplete EVD from scipy linalg)
+
+    # Fastest method (incomplete EVD from scipy linalg)
     if method == 0:
         S, U = linalg.eigh(C, eigvals=(r - k, r - 1))
         # Sort eigenvalues and eigenvectors to non-increasing order
         S = S[::-1]
         U = U[:, ::-1]
 
-    ## Medium speed methods (SVD)
+    # Medium speed methods (SVD)
     elif method == 1:
         U, S, _ = np.linalg.svd(C, full_matrices=False)
 
     elif method == 2:
         U, S, _ = linalg.svd(C, full_matrices=False)
 
-    ## Slowest methods (complete EVD)
+    # Slowest methods (complete EVD)
     elif method == 3:
         S, U = np.linalg.eig(C)
         # Sort eigenvalues and eigenvectors to non-increasing order
@@ -169,7 +169,7 @@ def do_cov_EVD(C, k=None, method=0):
         S = S.real
 
     if method != 0:
-        U = U[:,:k]
+        U = U[:, :k]
         S = S[:k]
 
     return U, S
